@@ -1,6 +1,4 @@
-(ns flexiana.backend.scramble
-  (:require [clojure.set :as set]
-            [clojure.data :as data]))
+(ns flexiana.backend.scramble)
 
 (defn scramble? [puzzle picture]
   (let [histogram-puzzle (frequencies puzzle)
