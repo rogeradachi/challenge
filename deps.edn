@@ -1,0 +1,4 @@
+{:paths ["src" "resources"]
+ :deps {org.clojure/clojure               {:mvn/version "1.10.1"}
+        clj-http                          {:mvn/version "3.10.1"}}
+ :mvn/repos {"confluent"      {:url "https://packages.confluent.io/maven/"}}}
