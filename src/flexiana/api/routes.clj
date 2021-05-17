@@ -15,9 +15,9 @@
 
 (defn bad-request-handler [{{:keys [pieces puzzle]}     :query-params}]
       (cond
-        (and (empty? pieces) (empty? puzzle)) (http-response bad-request (str "pieces and puzzle cannot by empty\n"))
-        (empty? pieces) (http-response bad-request  (str "pieces cannot by empty\n"))
-        :else (http-response bad-request  (str "puzzle cannot by empty\n"))))
+        (and (empty? pieces) (empty? puzzle)) (http-response bad-request (str "pieces and puzzle cannot by empty"))
+        (empty? pieces) (http-response bad-request  (str "pieces cannot by empty"))
+        :else (http-response bad-request  (str "puzzle cannot by empty"))))
 
 (defn process-request [pieces puzzle]
       (if (service/scramble? pieces puzzle)
@@ -30,14 +30,17 @@
         (http-response ok (process-request pieces puzzle))
         (bad-request-handler request)))
 
+(defn hello-world [request]
+      (http-response ok (str "Hello world!")))
+
 (def routes
-  (route/expand-routes
-    #{["/greet" :get scramble-challenge :route-name :greet]}))
+  #{["/scramble" :get scramble-challenge :route-name :scramble]
+    ["/hello" :get hello-world :route-name :hello]})
 
 (def service-map
-  {::http/routes routes
-   ::http/type   :jetty
-   ::http/port   8890
+  {::http/routes          (route/expand-routes routes)
+   ::http/type            :jetty
+   ::http/port            8890
    ::http/allowed-origins ["http://localhost:3449"]})
 
 (defn start []
